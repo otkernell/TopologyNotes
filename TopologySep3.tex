@@ -1,0 +1,341 @@
+\documentclass[12pt]{amsart}
+\usepackage{amsmath,amssymb, amsthm, mathrsfs}
+%\usepackage{wasysym}
+%\usepackage{stmaryrd}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{exercise}{Exercise}[section]
+\theoremstyle{definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{claim}{Claim}
+\newtheorem*{sub-claim}{sub-claim}
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\explicitSet}[1]{\left\lbrace #1 \right\rbrace}
+\newcommand{\explicitSequence}[1]{\left\langle #1 \right\rangle}
+\newcommand{\set}[2]{\explicitSet{#1 \colon #2}}
+\newcommand{\seq}[2]{\explicitSequence{#1 \colon #2}}
+\newcommand{\0}{\emptyset}
+\newcommand{\closure}[1]{\overline{#1}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\B}{\mathcal B}
+
+
+
+
+\begin{document}
+
+
+\begin{center}
+\Large{\textbf{Course Notes}}
+
+\large{\textbf{MATH 5330: Introduction to Topology}}
+
+\large{\textbf{FALL 2015}}
+\end{center}
+
+\section{Introduction}
+
+Welcome to MTH 5330! As part of this course, you are a co-author of this document. This is where we will record what we are learning this semester. These notes can serve as a study guide for your exams, but mostly I hope that you will benefit from the process of inventing your own proofs and writing them down.
+
+\section{What is topology?}
+
+Unhelpfully, we could define topology to be the study of topological spaces. But then we must ask: \textit{what is a topological space?} Before we can say what a topological space is, we need to know what a set is.
+
+Informally, a \textbf{set} is a collection of stuff. For our purposes, this informal definition will do.
+
+We write $x \in X$ to indicate that $x$ is a \textbf{member} or an \textbf{element} of the set $X$ (that is, $x$ is in the collection denoted by $X$). We say that $X$ is a \textbf{subset} of $Y$, and we write $X \subseteq Y$, whenever every element of $X$ is also an element of $Y$. Two sets are the same if and only if they have the same elements.
+
+Some familiar sets are $\R$ (the set of all real numbers), $\Q$ (the set of all rational numbers), $\Z$ (the set of all integers), and $\N$ (the set of all natural numbers, not including $0$).
+
+\begin{exercise}
+Prove that $X = Y$ if and only if $X \subseteq Y$ and $Y \subseteq X$.
+\begin{proof}
+	$(\Rightarrow)$ Let $X=Y$. Let $x \in X$. $x \in Y \Rightarrow X \subseteq Y$
+	\\$(\Leftarrow)$ Let $X \subseteq Y$ and $Y \subseteq X$. Let $x \in X \Rightarrow x \in Y$. Let $y \in Y \Rightarrow y \in X$. Since the two sets share all of the same elements, they must be equal and thus $X = Y$.
+\end{proof}
+\end{exercise}
+\begin{itemize}
+	\item[Note:] We can also take the approach for the $(\Leftarrow)$ portion of the above proof, by observing $X \subseteq Y \subseteq X$. Also, we see that $X = X$. Thus $X = Y$.
+	\item[Note:] If $x \leq y$ and $y \leq x \Rightarrow x=y$ (antisymmetry)
+\end{itemize}
+
+Since a set is determined by its elements, there can be only one set with no elements. This is called the \textbf{empty set}, and it is denoted $\0$.
+
+Sometimes we will describe a set by listing its elements inside braces:
+$$\explicitSet{1,2,3,4}$$
+$$\explicitSet{2,3,5,7,11,\dots}$$
+Sometimes we will describe a set by specifying its members like this:
+$$\set{n \in \N}{n < 5}$$
+$$\set{n \in \N}{n \text{ is prime}}$$
+Sometimes only the latter notation will really make sense:
+$$\set{r \in \R}{0 < r < 1}$$
+
+The \textbf{union} of two sets $X$ and $Y$ is written $X \cup Y$. This is defined to be the (unique) set containing everything that is contained in either $X$ or $Y$. The \textbf{intersection} of $X$ and $Y$, written $X \cap Y$, is the set containing everything that is contained in both $X$ and $Y$. More generally, if $\F$ is a set of sets, then $\bigcup \F$ (the union of $\F$) consists of all sets that are in any member of $\F$, and $\bigcap \F$ (the intersection of $\F$) consists of all sets that are in every member of $\F$:
+$$x \in \bigcup \F \qquad \Leftrightarrow \qquad \exists X \in \F \ \ x \in X$$
+$$x \in \bigcap \F \qquad \Leftrightarrow \qquad \forall X \in \F \ \ x \in X$$
+
+\begin{definition}A \textbf{closure operator on a set $X$} is a function that maps each subset $A$ of $X$ to another subset of $X$, usually denoted $\closure{A}$, such that the following five conditions are satisfied:
+\begin{enumerate}
+\item $\closure{\0} = \0$.
+\item If $A \subseteq B$, then $\closure{A} \subseteq \closure{B}$.
+\item For all $A \subseteq X$, $A \subseteq \closure{A}$.
+\item For all $A \subseteq X$, $\closure{\closure{A}} = \closure{A}$.
+\item For all $A,B \subseteq X$, $\closure{A \cup B} = \closure{A} \cup \closure{B}$.
+\end{enumerate} 
+We say that $A \subseteq X$ is \textbf{closed} if $A = \closure{A}$. We say that $A \subseteq X$ is \textbf{open} if $X-A$ is closed.
+\end{definition}
+
+\begin{exercise}
+Given a closure operator on a set $X$, prove that
+\begin{enumerate}
+\item $\closure{X} = X$.
+\item Is it necessarily true that $\closure{A \cap B} = \closure{A} \cap \closure{B}$?
+\end{enumerate}
+\end{exercise}
+
+Intuitively, a closure operation extends a set $A$ to include all of the points that are close to $A$. A topological space can be thought of as a set $X$ together with a closure operator on $X$. This will not be our formal definition of a topological space, but in a bit, when we do give a formal definition, we will prove that this definition is essentially equivalent.
+
+\begin{example}\label{example:realline}
+Given $A \subseteq \R$ and $x \in \R$, let $x \in \closure{A}$ if and only if
+$$\inf \set{|x-a|}{a \in A} = 0.$$
+\end{example}
+
+\begin{exercise}
+Prove that the definition in the previous example really does define a closure operator.
+\end{exercise}
+
+\begin{proof}
+	\begin{enumerate}
+	\item 
+		$\overline{\emptyset}=\emptyset \inf\{|x-a| \ : \ a\in \emptyset\}=\infty$
+	\item 
+		If $A\subseteq B$, then $\overline{A}\subseteq \overline{B}$.  Let $x\in \overline{A}$, then $\inf\{|x-a| \ : \ a\in A\}=0$.  For all $y\in A$ and $y\in B$, $\inf\{|x-a| \ : \ a\in B\}=0$.  So $x\in \overline{B}$.  Thus, $\overline{A}\subseteq \overline{B}$.
+	\item 
+	Let $x\in A$.  $0$ must be in $\{|x-a| \ : \ a\in A\}$.  Thus $\inf \{|x-a| \ : \ a\in A\}=0$. So $x\in \overline{A}$.
+	\item
+		By$(3)$, $A\subset \overline{A}$.  By $(2)$, $\overline{A} \subset \overline{\overline{A}}$.  Let $\varepsilon>0$.  Let $x\in  \overline{\overline{A}}$, which implies $\inf \{|x-a| \ : \ \overline{a} \in \overline{A} \}=0$.  So $\exists \ y\in \overline{A}$ s.t. $|x-y|<\varepsilon/2$.  Then, since $y\in \overline{A}$ implies $\inf \{|y-a| \ : \ a \in A \}=0$, $\exists \ z \in A$ s.t.  $|z-y|<\varepsilon / 2$.  By the triangle inequality, $|x-z|<|x-y|+|y-z|<\varepsilon/2+\varepsilon/2=\varepsilon$.
+	\end{enumerate}
+\end{proof}
+
+
+\begin{proposition}
+Given a closure operator on a set $X$, prove the following three properties of closed sets:
+\begin{enumerate}
+\item $X$ and $\0$ are both closed.
+\item If $\F$ is a finite family of closed sets, then $\bigcup \F$ is closed.
+\item If $\F$ is any family of closed sets, then $\bigcap \F$ is closed.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+\begin{exercise}
+\begin{itemize}
+\rm\
+\item[(a)] $X$ and $\emptyset$ are both closed.
+\\PROOF: $A$ is closed iff $X-A$ is closed.  Let $A=X$.  Since $X$ is open, $X-X=\emptyset$ is closed.  Let $A=\emptyset$.  Since $\emptyset$ is open, $X-\emptyset=X$ is closed.
+
+\item[(b)] If $\mathscr{F}$ is a finite family of closed sets, then $\cup\mathscr{F}$ is closed.
+\\PROOF: Let $F_1, F_2 \in \mathscr{F}$.  We know $\overline{F_1}=F_1$ and $\overline{F_2}=F_2$.  Thus \[F_1 \cup F_2=\overline{F_1}\cup\overline{F_2}=\overline{F_1 \cup F_2}.\] Assume (2) is true for families of size $n$.  Let $\mathscr{F}$ be a family of closed sets $\{F_1, \dots, F_{n+1}\}$ \item[(c)] If $\mathscr{F}$ is any family of closed sets, then $\cup \mathscr{F}$ is closed.
+	\end{itemize}
+\end{exercise}
+\end{proof}
+
+
+
+
+\begin{corollary}
+Given a closure operator on a set $X$, prove the following three properties of open sets:
+\begin{enumerate}
+\item $\0$ and $X$ are both open.
+\item If $\F$ is a finite family of open sets, then $\bigcap \F$ is open.
+\item If $\F$ is any family of open sets, then $\bigcup \F$ is open.
+\end{enumerate}
+\end{corollary}
+\begin{exercise} 
+\begin{proof}\rm\
+	\begin{enumerate}
+		\item To show $\0$ is open, notice that $X- \0 = X$ and $X$ is closed by Proposition 2.3.1. Thus, we have that $\0$ is open by definition. 
+		
+		Similarly, since $X-X=\0$ and $\0$ is closed by Proposition 2.3.1, we have that $X$ is open by definition.
+	
+	To prove properties (2) and (3), we need to use De Morgan's laws: Let $\F=\{F_i:i \in I\}$. Then:
+		$$\left(\bigcup_{i \in I}F_i\right)^c = \bigcap_{i \in I}\left(F_i^c\right)$$ \begin{center}and
+		\end{center}
+		
+		$$\left(\bigcap_{i \in I}F_i\right)^c = \bigcup_{i \in I}\left(F_i^c\right)$$
+		To prove these, observe the following:
+		\begin{proof}
+			$x \in \left(\bigcup_{i \in I}F_i\right)^c \iff x \not\in F_i \forall\: i \in I \iff$ 
+			
+$			x \in \left(F_i\right)^c \:\forall\: i \in I \iff x \in \bigcap_{i \in I}\left(F_i^c\right)$
+		
+		Similarly,
+	
+	$x \in \left(\bigcap_{i \in I}F_i\right)^c \iff \exists x \not\in F_i : i \in I \iff$ 
+	
+	$			\exists x \in \left(F_i\right)^c : i \in I \iff x \in \bigcup_{i \in I}\left(F_i^c\right)$
+\end{proof}
+		
+		Returning to the Corollary: 
+		
+		\item Let $\F = \left\{ F_i:i \in I \right\}$ be a finite family of open sets. Then we have
+		
+		 $\left( \bigcap_{i \in I}F_i \right)^c = \bigcup_{i \in I}\left(F_i^c\right)$ by De Morgan. Since $\F$ is a finite family of open sets, $\left( F_i^c \right)$ is composed of closed sets, so $\bigcup_{i \in I}\left(F_i^c\right)$ is closed by Proposition 2.3.2. Thus, since  $\left( \bigcap_{i \in I}F_i \right)^c$ is closed, we have that its complement, $ \bigcap_{i \in I}F_i$, is open.
+		 
+		 \item Again using De Morgan's laws, let $\F = \left\{ F_i:i \in I \right\}$ be any family of open sets. Then we have
+		 
+		 $\left( \bigcup_{i \in I}F_i \right)^c = \bigcap_{i \in I}\left(F_i^c\right)$ by De Morgan. Since $\F$ is any family of open sets, $\left( F_i^c \right)$ is composed of closed sets, so $\bigcap_{i \in I}\left(F_i^c\right)$ is closed by Proposition 2.3.2. Thus, since  $\left( \bigcup_{i \in I}F_i \right)^c$ is closed, we have that its complement, $ \bigcup_{i \in I}F_i$, is open.
+	\end{enumerate}
+
+\end{proof}
+\end{exercise}
+
+
+We will use these three properties of open sets as our definition of a topological space:
+
+\begin{definition}
+A topological space is a set $X$ together with a collection $\tau$ of subsets of $X$ such that
+\begin{enumerate}
+\item $\0, X \in \tau$.
+\item If $\F \subseteq \tau$ and $\F$ is finite, then $\bigcap \F \in \tau$.
+\item If $\F \subseteq \tau$, then $\bigcup \F \in \tau$.
+\end{enumerate}
+We say that $\tau$ is a topology on $X$. The members of $\tau$ are called the \textbf{open} subsets of $X$. A set is called \textbf{closed} if its complement is open.
+\end{definition}
+
+Remember -- subsets of topological spaces are not doors! A set can be neither open, closed, both, or neither.
+
+You may object that we have defined ``open'' twice now. We will presently justify this by showing that the two ways in which we're using the word are essentially equivalent.
+
+\begin{exercise}\label{ex:closureoperatortotopology}
+Given a closure operator on a set $X$, show that the open subsets of $X$ constitute a topology on $X$. In other words, the ``open'' subsets induced by a closure operator are the ``open'' subsets of a topological space.
+\end{exercise}
+
+Given a topological space $(X,\tau)$ and $A \subseteq X$, define $x \in \closure{A}^\tau$ if and only if for every $U \in \tau$ with $x \in U$, we have $U \cap A \neq \0$.
+
+\begin{exercise}\label{ex:topologytoclosureoperator}
+Show that, for any topology $\tau$ on $X$, the function $A \mapsto \closure{A}^\tau$ is a closure operator.
+\end{exercise}
+
+These two exercises show that every closure operator defines a topological space, and every topological space defines a closure operator. The following exercise shows that these two definitions are ``inverses'' to each other, and shows that the idea of a closure operator is really the same as the idea of a topological space, but in a different form. In fact, we could have taken the closure operator (rather than the open sets) to be our definition of topological spaces. We did not do this because (1) the definition we did give is more standard (2) while the closure operator might be more intuitive at first glance, the definition in terms of open sets will be easier to work with.
+
+\begin{exercise}\rm\
+\begin{enumerate}
+\item Given a closure operator on a set $X$, let $\tau$ be its induced topology (in the sense of Exercise~\ref{ex:closureoperatortotopology}). Show that the function $A \mapsto \closure{A}^\tau$, which you proved to be a closure operator in Exercise~\ref{ex:topologytoclosureoperator}, is the same as the closure operator you started with.
+\item Given a topology $\tau$ on $X$, show that the topology induced by the closure operator $A \mapsto \closure{A}^\tau$ is the same as $\tau$.
+\end{enumerate}
+\end{exercise}
+
+So now we have not one but two equivalent definitions of a topological space!
+
+\section{Basis, subbasis, and local basis}
+
+\begin{definition}
+If $\B$ is a collection of subsets of $X$, then $\B$ is a \textbf{basis} for a topology on $X$ if and only if
+\begin{itemize}
+\item For each $x \in X$, there is some $B \in \B$ containing $x$.
+\item For $B_1,B_2 \in \B$, if $x \in B_1 \cap B_2$ then there is some $B_3 \in \B$ such that $x \in B_3 \subseteq B_1 \cap B_2$.
+\end{itemize}
+\end{definition}
+
+If $\B$ is a basis for a topology on $X$, then
+$$\tau = \set{\bigcup \F}{\F \subseteq \B}$$
+is called the \textbf{topology generated by $\B$}. Conversely, given a specific topology $\tau$ on $X$, $\B$ is called a \textbf{basis for $\tau$} if $\B \subseteq \tau$ and if every $U \in \tau$ can be written as a union of members of $\B$.
+
+\begin{theorem}
+Given a basis $\B$ on $X$, prove that the topology generated by $\B$ is in fact a topology, and that $\B$ is in fact a basis for this topology.
+\end{theorem}
+\begin{proof}
+\begin{exercise}\end{exercise}
+\emph{Hint: Remember that, by convention, $\bigcup \0 = \0$.}
+\end{proof}
+
+From now on, if we specify a basis $\B$ for a topology on $X$, and then proceed without further comment to refer to $X$ as a topological space, it is assumed that we are talking about the topology generated by $\B$.
+
+\begin{exercise}
+Suppose $\B$ is a basis for a topology on $X$. For all $A \subseteq X$ and all $x \in X$, show that $x \in \closure{A}$ if and only if for every $U \in \B$ with $x \in U$, we have $U \cap A \neq \0$.
+\end{exercise}
+\begin{proof}
+	$(\Rightarrow) \forall x \in \overline{A}, \exists B \in \B$ s.t. $x \in B$. If $\forall$ open sets $U$ s.t. $U \cap A \neq \0$, then $B\cap A \neq \0$ since $B$ is an open set.
+	\\$(\Leftarrow)$ Let $x \in X$. Suppose $\forall U \in \B$ with $x \in U$, $U\cap A \neq \0$. Let $x \in V$, $V$ open. Then $\exists U \in \B$ s.t. $U \subseteq V$ and $x \in U$. So $V \cap A \neq \0$. Thus $x \in \overline{A}$.
+\end{proof}
+
+In other words, this exercise says that we can define the closure operator in terms of a basis.
+
+\begin{exercise}
+\begin{enumerate}
+\item Prove that the set of all open intervals (intervals of the form $(a,b) = \set{x}{a < x < b}$) is a basis for a topology on $\R$.
+\item Prove that the set of all right-open intervals (intervals of the form $[a,b) = \set{x}{a \leq x < b}$) is a basis for a topology on $\R$.
+\item Are these two topologies the same? (Justify your answer.)
+\end{enumerate}
+\end{exercise}
+
+The topology given in part (1) of the previous exercise is called the \textbf{usual topology on $\R$}.
+
+Recall that a set $X$ is \textbf{countable} if there is a bijection from $\N$ to $X$.
+
+\begin{exercise}
+Find a countable basis for the usual topology on $\R$.
+\end{exercise}
+
+
+The notion of a basis allows us to define many topological spaces, and ways of constructing new spaces from old ones.
+
+Recall that a \textbf{total order} on a set $X$ is a relation $\leq$ such that, for all $x,y,z \in X$,
+\begin{itemize}
+\item (reflexivity) $x \leq x$.
+\item (antisymmetry) if $x \leq y$ and $y \leq x$, then $x=y$.
+\item (transitivity) if $x \leq y$ and $y \leq z$, then $x \leq z$.
+\item (totality) either $x \leq y$ or $y \leq x$.
+\end{itemize}
+
+Suppose $\leq$ is a total order on the set $X$. The \textbf{order topology} is the topology on $X$ with the following basis:
+$$\set{(a,b)}{a,b \in X} \cup \set{(a,\infty)}{a \in X} \cup \set{(-\infty,a)}{a \in X}$$
+where
+$$(a,b) = \set{x \in X}{a < x < b}$$
+$$(a,\infty) = \set{x \in X}{a < x}$$
+$$(a,\infty) = \set{x \in X}{x < a}.$$
+
+\begin{exercise}
+Let $\leq$ denote the usual order on $\R$. Show that the order topology on $\R$ is the same as the topology on $\R$ described in Example~\ref{example:realline}.
+\end{exercise}
+
+\begin{exercise}
+Define a new order on $\R$ such that the order topology given by this order is different from the order topology given by the usual order.
+\end{exercise}
+
+Given two sets $X$ and $Y$, recall that $X \times Y$ denotes the set of all pairs $(x,y)$, with $x \in X$ and $y \in Y$. Suppose $(X,\tau)$ and $(Y\sigma)$ are topological spaces. Define the \textbf{product topology} on $X \times Y$ to be the topology with the following basis:
+$$\set{U \times V}{U \in \tau \text{ and } V \in \sigma}$$ 
+
+\begin{exercise}
+Prove that this is a basis for a topology on $X \times Y$.
+\end{exercise}
+
+We can use a similar idea to define a topology on an infinite product of sets. First, let us define what we mean by an infinite product of sets.
+
+\begin{definition}\rm\
+\begin{enumerate}
+\item If $\set{X_i}{i \in I}$ is a set of sets, then define their \textbf{product}, denoted $\prod_{i \in I}X_i$, to be the set of all functions $f: I \to \bigcup_{i \in I}X_i$, such that, for every $i \in I$, $f(i) \in X_i$.
+\item If $\set{X_i}{i \in I}$ is a set of sets, define the \textbf{projection map} onto the $j^{\mathrm{th}}$ coordinate to be the function $\pi_j: \prod_{i \in I}X_i$ given by $\pi_j(f) = f(j)$.
+\end{enumerate}
+\end{definition}
+
+\begin{exercise}
+Suppose $\set{(X_i,\tau_i)}{i \in I}$ is a set of topological spaces. How do you think we should define the product topology on $\prod_{i \in I}X_i$?
+\end{exercise}
+
+
+
+
+
+\end{document}
