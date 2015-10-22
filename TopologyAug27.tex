@@ -1,0 +1,241 @@
+\documentclass[12pt]{amsart}
+\usepackage{amsmath,amssymb, amsthm, mathrsfs}
+%\usepackage{wasysym}
+%\usepackage{stmaryrd}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{exercise}{Exercise}[section]
+\theoremstyle{definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{claim}{Claim}
+\newtheorem*{sub-claim}{sub-claim}
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\explicitSet}[1]{\left\lbrace #1 \right\rbrace}
+\newcommand{\explicitSequence}[1]{\left\langle #1 \right\rangle}
+\newcommand{\set}[2]{\explicitSet{#1 \colon #2}}
+\newcommand{\seq}[2]{\explicitSequence{#1 \colon #2}}
+\newcommand{\0}{\emptyset}
+\newcommand{\closure}[1]{\overline{#1}}
+\newcommand{\F}{\mathcal F}
+\newcommand{\B}{\mathcal B}
+
+
+
+
+\begin{document}
+
+
+\begin{center}
+\Large{\textbf{Course Notes}}
+
+\large{\textbf{MATH 5330: Introduction to Topology}}
+
+\large{\textbf{FALL 2015}}
+\end{center}
+
+\section{Introduction}
+
+Welcome to MTH 5330! As part of this course, you are a co-author of this document. This is where we will record what we are learning this semester. These notes can serve as a study guide for your exams, but mostly I hope that you will benefit from the process of inventing your own proofs and writing them down.
+
+\section{What is topology?}
+
+Unhelpfully, we could define topology to be the study of topological spaces. But then we must ask: \textit{what is a topological space?} Before we can say what a topological space is, we need to know what a set is.
+
+Informally, a \textbf{set} is a collection of stuff. For our purposes, this informal definition will do.
+
+We write $x \in X$ to indicate that $x$ is a \textbf{member} or an \textbf{element} of the set $X$ (that is, $x$ is in the collection denoted by $X$). We say that $X$ is a \textbf{subset} of $Y$, and we write $X \subseteq Y$, whenever every element of $X$ is also an element of $Y$. Two sets are the same if and only if they have the same elements.
+
+Some familiar sets are $\R$ (the set of all real numbers), $\Q$ (the set of all rational numbers), $\Z$ (the set of all integers), and $\N$ (the set of all natural numbers, not including $0$).
+
+\begin{exercise}
+Prove that $X = Y$ if and only if $X \subseteq Y$ and $Y \subseteq X$.
+\begin{proof}
+	$(\Rightarrow)$ Let $X=Y$. Let $x \in X$. $x \in Y \Rightarrow X \subseteq Y$
+	\\$(\Leftarrow)$ Let $X \subseteq Y$ and $Y \subseteq X$. Let $x \in X \Rightarrow x \in Y$. Let $y \in Y \Rightarrow y \in X$. Since the two sets share all of the same elements, they must be equal and thus $X = Y$.
+\end{proof}
+\end{exercise}
+\begin{itemize}
+	\item[Note:] We can also take the approach for the $(\Leftarrow)$ portion of the above proof, by observing $X \subseteq Y \subseteq X$. Also, we see that $X = X$. Thus $X = Y$.
+	\item[Note:] Note: If $x \leq y$ and $y \leq x \Rightarrow x=y$ (antisymmetry)
+\end{itemize}
+
+
+Since a set is determined by its elements, there can be only one set with no elements. This is called the \textbf{empty set}, and it is denoted $\0$.
+
+Sometimes we will describe a set by listing its elements inside braces:
+$$\explicitSet{1,2,3,4}$$
+$$\explicitSet{2,3,5,7,11,\dots}$$
+Sometimes we will describe a set by specifying its members like this:
+$$\set{n \in \N}{n < 5}$$
+$$\set{n \in \N}{n \text{ is prime}}$$
+Sometimes only the latter notation will really make sense:
+$$\set{r \in \R}{0 < r < 1}$$
+
+The \textbf{union} of two sets $X$ and $Y$ is written $X \cup Y$. This is defined to be the (unique) set containing everything that is contained in either $X$ or $Y$. The \textbf{intersection} of $X$ and $Y$, written $X \cap Y$, is the set containing everything that is contained in both $X$ and $Y$. More generally, if $\F$ is a set of sets, then $\bigcup \F$ (the union of $\F$) consists of all sets that are in any member of $\F$, and $\bigcap \F$ (the intersection of $\F$) consists of all sets that are in every member of $\F$:
+$$x \in \bigcup \F \qquad \Leftrightarrow \qquad \exists X \in \F \ \ x \in X$$
+$$x \in \bigcap \F \qquad \Leftrightarrow \qquad \forall X \in \F \ \ x \in X$$
+
+\begin{definition}
+A \textbf{closure operator on a set $X$} is a function that maps each subset $A$ of $X$ to another subset of $X$, usually denoted $\closure{A}$, such that the following three conditions are satisfied:
+\begin{enumerate}
+\item $\closure{\0} = \0$.
+\item If $A \subseteq B$, then $\closure{A} \subseteq \closure{B}$.
+\item For all $A \subseteq X$, $A \subseteq \closure{A}$.
+\item For all $A \subseteq X$, $\closure{\closure{A}} = \closure{A}$.
+\item For all $A,B \subseteq X$, $\closure{A \cup B} = \closure{A} \cup \closure{B}$.
+\end{enumerate} 
+We say that $A \subseteq X$ is \textbf{closed} if $A = \closure{A}$. We say that $A \subseteq X$ is \textbf{open} if $X-A$ is closed.
+\end{definition}
+
+\begin{exercise}
+Given a closure operator on a set $X$, prove that
+\begin{enumerate}
+\item $\closure{X} = X$.
+\item Is it necessarily true that $\closure{A \cap B} = \closure{A} \cap \closure{B}$?
+\end{enumerate}
+\end{exercise}
+
+Intuitively, a closure operation extends a set $A$ to include all of the points that are close to $A$. A topological space can be thought of as a set $X$ together with a closure operator on $X$. This will not be our formal definition of a topological space, but in a bit, when we do give a formal definition, we will prove that this definition is essentially equivalent.
+
+\begin{example}
+Given $A \subseteq \R$ and $x \in \R$, let $x \in \closure{A}$ if and only if
+$$\inf \set{|x-a|}{a \in A} = 0.$$
+\end{example}
+
+\begin{exercise}
+Prove that the definition in the previous example really does define a closure operator.
+\end{exercise}
+
+\begin{proposition}
+Given a closure operator on a set $X$, prove the following three properties of closed sets:
+\begin{enumerate}
+\item $X$ and $\0$ are both closed.
+\item If $\F$ is a finite family of closed sets, then $\bigcup \F$ is closed.
+\item If $\F$ is any family of closed sets, then $\bigcap \F$ is closed.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+\begin{exercise}\end{exercise}
+\end{proof}
+
+\begin{corollary}
+Given a closure operator on a set $X$, prove the following three properties of open sets:
+\begin{enumerate}
+\item $\0$ and $X$ are both open.
+\item If $\F$ is a finite family of open sets, then $\bigcap \F$ is open.
+\item If $\F$ is any family of open sets, then $\bigcup \F$ is open.
+\end{enumerate}
+\end{corollary}
+\begin{proof}
+	\begin{enumerate}
+		\item $X- \0 = X$ is open; by 2.3 $\0$ is closed. Similarly, since $X-X=\0$, $\0$ is open, by 2.3 $X$ is closed.
+		\item Note: We need to use deMorgan's Laws which are as follows
+		$$\left(\bigcup_{i \in I}F_i\right)^c = \bigcap_{i \in I}\left(F_i^c\right)$$
+		However, first we must prove them
+		\begin{proof}
+			$x \in \left(\bigcup_{i \in I}F_i\right)^c \iff x \not\in F_i \forall\: i \in I \iff x \in \left(F_i\right)^c \:\forall\: i \in I \iff x \in \bigcap_{i \in I}\left(F_i^c\right)$
+		\end{proof}
+		Similarly,
+		$$\left(\bigcap_{i \in I}F_i\right)^c = \bigcup_{i \in I}\left(F_i^c\right)$$
+		Returning to (2). Let $\F = \left\{ F_i:i \in I \right\}$. Then $\left( \bigcap_{i \in I}F_i \right)^c = \bigcup_{i \in I}\left(F_i^c\right)$ by deMorgan. We can see that $\left( F_i^c \right)$ are closed and by Prop 2.3.2 we have a finite union of closed sets. $\bigcap_{i \in I}F_i$ is the complement of a closed set, and is thus open.
+	\end{enumerate}
+\begin{exercise}\end{exercise}
+\end{proof}
+
+We will use these three properties of open sets as our definition of a topological space:
+
+\begin{definition}
+A topological space is a set $X$ together with a collection $\tau$ of subsets of $X$ such that
+\begin{enumerate}
+\item $\0, X \in \tau$.
+\item If $\F \subseteq \tau$ and $\F$ is finite, then $\bigcap \F \in \tau$.
+\item If $\F \subseteq \tau$, then $\bigcup \F \in \tau$.
+\end{enumerate}
+We say that $\tau$ is a topology on $X$. The members of $\tau$ are called the \textbf{open} subsets of $X$. A set is called \textbf{closed} if its complement is open.
+\end{definition}
+
+Remember -- subsets of topological spaces are not doors! A set can be neither open, closed, both, or neither.
+
+You may object that we have defined ``open'' twice now. We will presently justify this by showing that the two ways in which we're using the word are essentially equivalent.
+
+\begin{exercise}\label{ex:closureoperatortotopology}
+Given a closure operator on a set $X$, show that the open subsets of $X$ constitute a topology on $X$. In other words, the ``open'' subsets induced by a closure operator are the ``open'' subsets of a topological space.
+\end{exercise}
+
+Given a topological space $(X,\tau)$ and $A \subseteq X$, define $x \in \closure{A}^\tau$ if and only if for every $U \in \tau$ with $x \in U$, we have $U \cap A \neq \0$.
+
+\begin{exercise}\label{ex:topologytoclosureoperator}
+Show that, for any topology $\tau$ on $X$, the function $A \mapsto \closure{A}^\tau$ is a closure operator.
+\end{exercise}
+
+These two exercises show that every closure operator defines a topological space, and every topological space defines a closure operator. The following exercise shows that these two definitions are ``inverses'' to each other, and shows that the idea of a closure operator is really the same as the idea of a topological space, but in a different form. In fact, we could have taken the closure operator (rather than the open sets) to be our definition of topological spaces. We did not do this because (1) the definition we did give is more standard (2) while the closure operator might be more intuitive at first glance, the definition in terms of open sets will be easier to work with.
+
+\begin{exercise}
+\begin{enumerate}
+\item Given a closure operator on a set $X$, let $\tau$ be its induced topology (in the sense of Exercise~\ref{ex:closureoperatortotopology}). Show that the function $A \mapsto \closure{A}^\tau$, which you proved to be a closure operator in Exercise~\ref{ex:topologytoclosureoperator}, is the same as the closure operator you started with.
+\item Given a topology $\tau$ on $X$, show that the topology induced by the closure operator $A \mapsto \closure{A}^\tau$ is the same as $\tau$.
+\end{enumerate}
+\end{exercise}
+
+So now we have not one but two equivalent definitions of a topological space!
+
+\section{Basis, subbasis, and local basis}
+
+\begin{definition}
+If $\B$ is a collection of subsets of $X$, then $\B$ is a \textbf{basis} for a topology on $X$ if and only if
+\begin{itemize}
+\item For each $x \in X$, there is some $B \in \B$ containing $x$.
+\item For $B_1,B_2 \in \B$, if $x \in B_1 \cap B_2$ then there is some $B_3 \in \B$ such that $x \in B_3 \subseteq B_1 \cap B_2$.
+\end{itemize}
+\end{definition}
+
+If $\B$ is a basis for a topology on $X$, then
+$$\tau = \set{\bigcup \F}{\F \subseteq \B}$$
+is called the \textbf{topology generated by $\B$}. Conversely, given a specific topology $\tau$ on $X$, $\B$ is called a \textbf{basis for $\tau$} if $\B \subseteq \tau$ and if every $U \in \tau$ can be written as a union of members of $\B$.
+
+\begin{theorem}
+Given a basis $\B$ on $X$, prove that the topology generated by $\B$ is in fact a topology, and that $\B$ is in fact a basis for this topology.
+\end{theorem}
+\begin{proof}
+\begin{exercise}\end{exercise}
+\emph{Hint: Remember that, by convention, $\bigcup \0 = \0$.}
+\end{proof}
+
+From now on, if we specify a basis $\B$ for a topology on $X$, and then proceed without further comment to refer to $X$ as a topological space, it is assumed that we are talking about the topology generated by $\B$.
+
+\begin{exercise}
+Suppose $\B$ is a basis for a topology on $X$. For all $A \subseteq X$ and all $x \in X$, show that $x \in \closure{A}$ if and only if for every $U \in \B$ with $x \in U$, we have $U \cap A \neq \0$.
+\end{exercise}
+
+In other words, this exercise says that we can define the closure operator in terms of a basis.
+
+\begin{exercise}
+\begin{enumerate}
+\item Prove that the set of all open intervals (intervals of the form $(a,b) = \set{x}{a < x < b}$) is a basis for a topology on $\R$.
+\item Prove that the set of all right-open intervals (intervals of the form $[a,b) = \set{x}{a \leq x < b}$) is a basis for a topology on $\R$.
+\item Are these two topologies the same? (Justify your answer.)
+\end{enumerate}
+\end{exercise}
+
+The topology given in part (1) of the previous exercise is called the \textbf{usual topology on $\R$}.
+
+Recall that a set $X$ is \textbf{countable} if there is a bijection from $\N$ to $X$.
+
+\begin{exercise}
+Find a countable basis for the usual topology on $\R$.
+\end{exercise}
+
+
+
+\end{document}
