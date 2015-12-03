@@ -67,8 +67,8 @@ Prove that $X = Y$ if and only if $X \subseteq Y$ and $Y \subseteq X$.
 \end{exercise}
 \begin{itemize}
 	\item[Note:] We can also take the approach for the $(\Leftarrow)$ portion of the above proof, by observing $X \subseteq Y \subseteq X$. Also, we see that $X = X$. Thus $X = Y$.
-	\item[Note:] If $x \leq y$ and $y \leq x \Rightarrow x=y$ (antisymmetry)
 \end{itemize}
+
 
 Since a set is determined by its elements, there can be only one set with no elements. This is called the \textbf{empty set}, and it is denoted $\0$.
 
@@ -86,6 +86,8 @@ $$x \in \bigcup \F \qquad \Leftrightarrow \qquad \exists X \in \F \ \ x \in X$$
 $$x \in \bigcap \F \qquad \Leftrightarrow \qquad \forall X \in \F \ \ x \in X$$
 
 \begin{definition}A \textbf{closure operator on a set $X$} is a function that maps each subset $A$ of $X$ to another subset of $X$, usually denoted $\closure{A}$, such that the following five conditions are satisfied:
+\begin{definition}
+A \textbf{closure operator on a set $X$} is a function that maps each subset $A$ of $X$ to another subset of $X$, usually denoted $\closure{A}$, such that the following three conditions are satisfied:
 \begin{enumerate}
 \item $\closure{\0} = \0$.
 \item If $A \subseteq B$, then $\closure{A} \subseteq \closure{B}$.
@@ -106,7 +108,6 @@ Given a closure operator on a set $X$, prove that
 
 Intuitively, a closure operation extends a set $A$ to include all of the points that are close to $A$. A topological space can be thought of as a set $X$ together with a closure operator on $X$. This will not be our formal definition of a topological space, but in a bit, when we do give a formal definition, we will prove that this definition is essentially equivalent.
 
-\begin{example}\label{example:realline}
 Given $A \subseteq \R$ and $x \in \R$, let $x \in \closure{A}$ if and only if
 $$\inf \set{|x-a|}{a \in A} = 0.$$
 \end{example}
@@ -114,20 +115,6 @@ $$\inf \set{|x-a|}{a \in A} = 0.$$
 \begin{exercise}
 Prove that the definition in the previous example really does define a closure operator.
 \end{exercise}
-
-\begin{proof}
-	\begin{enumerate}
-	\item 
-		$\overline{\emptyset}=\emptyset \inf\{|x-a| \ : \ a\in \emptyset\}=\infty$
-	\item 
-		If $A\subseteq B$, then $\overline{A}\subseteq \overline{B}$.  Let $x\in \overline{A}$, then $\inf\{|x-a| \ : \ a\in A\}=0$.  For all $y\in A$ and $y\in B$, $\inf\{|x-a| \ : \ a\in B\}=0$.  So $x\in \overline{B}$.  Thus, $\overline{A}\subseteq \overline{B}$.
-	\item 
-	Let $x\in A$.  $0$ must be in $\{|x-a| \ : \ a\in A\}$.  Thus $\inf \{|x-a| \ : \ a\in A\}=0$. So $x\in \overline{A}$.
-	\item
-		By$(3)$, $A\subset \overline{A}$.  By $(2)$, $\overline{A} \subset \overline{\overline{A}}$.  Let $\varepsilon>0$.  Let $x\in  \overline{\overline{A}}$, which implies $\inf \{|x-a| \ : \ \overline{a} \in \overline{A} \}=0$.  So $\exists \ y\in \overline{A}$ s.t. $|x-y|<\varepsilon/2$.  Then, since $y\in \overline{A}$ implies $\inf \{|y-a| \ : \ a \in A \}=0$, $\exists \ z \in A$ s.t.  $|z-y|<\varepsilon / 2$.  By the triangle inequality, $|x-z|<|x-y|+|y-z|<\varepsilon/2+\varepsilon/2=\varepsilon$.
-	\end{enumerate}
-\end{proof}
-
 
 \begin{proposition}
 Given a closure operator on a set $X$, prove the following three properties of closed sets:
@@ -138,20 +125,7 @@ Given a closure operator on a set $X$, prove the following three properties of c
 \end{enumerate}
 \end{proposition}
 \begin{proof}
-\begin{exercise}
-\begin{itemize}
-\rm\
-\item[(a)] $X$ and $\emptyset$ are both closed.
-\\PROOF: $A$ is closed iff $X-A$ is closed.  Let $A=X$.  Since $X$ is open, $X-X=\emptyset$ is closed.  Let $A=\emptyset$.  Since $\emptyset$ is open, $X-\emptyset=X$ is closed.
-
-\item[(b)] If $\mathscr{F}$ is a finite family of closed sets, then $\cup\mathscr{F}$ is closed.
-\\PROOF: Let $F_1, F_2 \in \mathscr{F}$.  We know $\overline{F_1}=F_1$ and $\overline{F_2}=F_2$.  Thus \[F_1 \cup F_2=\overline{F_1}\cup\overline{F_2}=\overline{F_1 \cup F_2}.\] Assume (2) is true for families of size $n$.  Let $\mathscr{F}$ be a family of closed sets $\{F_1, \dots, F_{n+1}\}$ \item[(c)] If $\mathscr{F}$ is any family of closed sets, then $\cup \mathscr{F}$ is closed.
-	\end{itemize}
-\end{exercise}
 \end{proof}
-
-
-
 
 \begin{corollary}
 Given a closure operator on a set $X$, prove the following three properties of open sets:
@@ -162,44 +136,21 @@ Given a closure operator on a set $X$, prove the following three properties of o
 \end{enumerate}
 \end{corollary}
 \begin{exercise} 
-\begin{proof}\rm\
+\begin{proof}
 	\begin{enumerate}
-		\item To show $\0$ is open, notice that $X- \0 = X$ and $X$ is closed by Proposition 2.3.1. Thus, we have that $\0$ is open by definition. 
-		
-		Similarly, since $X-X=\0$ and $\0$ is closed by Proposition 2.3.1, we have that $X$ is open by definition.
-	
-	To prove properties (2) and (3), we need to use De Morgan's laws: Let $\F=\{F_i:i \in I\}$. Then:
-		$$\left(\bigcup_{i \in I}F_i\right)^c = \bigcap_{i \in I}\left(F_i^c\right)$$ \begin{center}and
-		\end{center}
-		
-		$$\left(\bigcap_{i \in I}F_i\right)^c = \bigcup_{i \in I}\left(F_i^c\right)$$
-		To prove these, observe the following:
+		\item $X- \0 = X$ is open; by 2.3 $\0$ is closed. Similarly, since $X-X=\0$, $\0$ is open, by 2.3 $X$ is closed.
+		\item Note: We need to use deMorgan's Laws which are as follows
+		$$\left(\bigcup_{i \in I}F_i\right)^c = \bigcap_{i \in I}\left(F_i^c\right)$$
+		However, first we must prove them
 		\begin{proof}
-			$x \in \left(\bigcup_{i \in I}F_i\right)^c \iff x \not\in F_i \forall\: i \in I \iff$ 
-			
-$			x \in \left(F_i\right)^c \:\forall\: i \in I \iff x \in \bigcap_{i \in I}\left(F_i^c\right)$
-		
+			$x \in \left(\bigcup_{i \in I}F_i\right)^c \iff x \not\in F_i \forall\: i \in I \iff x \in \left(F_i\right)^c \:\forall\: i \in I \iff x \in \bigcap_{i \in I}\left(F_i^c\right)$
+		\end{proof}
 		Similarly,
-	
-	$x \in \left(\bigcap_{i \in I}F_i\right)^c \iff \exists x \not\in F_i : i \in I \iff$ 
-	
-	$			\exists x \in \left(F_i\right)^c : i \in I \iff x \in \bigcup_{i \in I}\left(F_i^c\right)$
-\end{proof}
-		
-		Returning to the Corollary: 
-		
-		\item Let $\F = \left\{ F_i:i \in I \right\}$ be a finite family of open sets. Then we have
-		
-		 $\left( \bigcap_{i \in I}F_i \right)^c = \bigcup_{i \in I}\left(F_i^c\right)$ by De Morgan. Since $\F$ is a finite family of open sets, $\left( F_i^c \right)$ is composed of closed sets, so $\bigcup_{i \in I}\left(F_i^c\right)$ is closed by Proposition 2.3.2. Thus, since  $\left( \bigcap_{i \in I}F_i \right)^c$ is closed, we have that its complement, $ \bigcap_{i \in I}F_i$, is open.
-		 
-		 \item Again using De Morgan's laws, let $\F = \left\{ F_i:i \in I \right\}$ be any family of open sets. Then we have
-		 
-		 $\left( \bigcup_{i \in I}F_i \right)^c = \bigcap_{i \in I}\left(F_i^c\right)$ by De Morgan. Since $\F$ is any family of open sets, $\left( F_i^c \right)$ is composed of closed sets, so $\bigcap_{i \in I}\left(F_i^c\right)$ is closed by Proposition 2.3.2. Thus, since  $\left( \bigcup_{i \in I}F_i \right)^c$ is closed, we have that its complement, $ \bigcup_{i \in I}F_i$, is open.
+		$$\left(\bigcap_{i \in I}F_i\right)^c = \bigcup_{i \in I}\left(F_i^c\right)$$
+		Returning to (2). Let $\F = \left\{ F_i:i \in I \right\}$. Then $\left( \bigcap_{i \in I}F_i \right)^c = \bigcup_{i \in I}\left(F_i^c\right)$ by deMorgan. We can see that $\left( F_i^c \right)$ are closed and by Prop 2.3.2 we have a finite union of closed sets. $\bigcap_{i \in I}F_i$ is the complement of a closed set, and is thus open.
 	\end{enumerate}
-
+\begin{exercise}\end{exercise}
 \end{proof}
-\end{exercise}
-
 
 We will use these three properties of open sets as our definition of a topological space:
 
@@ -229,7 +180,7 @@ Show that, for any topology $\tau$ on $X$, the function $A \mapsto \closure{A}^\
 
 These two exercises show that every closure operator defines a topological space, and every topological space defines a closure operator. The following exercise shows that these two definitions are ``inverses'' to each other, and shows that the idea of a closure operator is really the same as the idea of a topological space, but in a different form. In fact, we could have taken the closure operator (rather than the open sets) to be our definition of topological spaces. We did not do this because (1) the definition we did give is more standard (2) while the closure operator might be more intuitive at first glance, the definition in terms of open sets will be easier to work with.
 
-\begin{exercise}\rm\
+\begin{exercise}
 \begin{enumerate}
 \item Given a closure operator on a set $X$, let $\tau$ be its induced topology (in the sense of Exercise~\ref{ex:closureoperatortotopology}). Show that the function $A \mapsto \closure{A}^\tau$, which you proved to be a closure operator in Exercise~\ref{ex:topologytoclosureoperator}, is the same as the closure operator you started with.
 \item Given a topology $\tau$ on $X$, show that the topology induced by the closure operator $A \mapsto \closure{A}^\tau$ is the same as $\tau$.
@@ -265,10 +216,6 @@ From now on, if we specify a basis $\B$ for a topology on $X$, and then proceed 
 \begin{exercise}
 Suppose $\B$ is a basis for a topology on $X$. For all $A \subseteq X$ and all $x \in X$, show that $x \in \closure{A}$ if and only if for every $U \in \B$ with $x \in U$, we have $U \cap A \neq \0$.
 \end{exercise}
-\begin{proof}
-	$(\Rightarrow) \forall x \in \overline{A}, \exists B \in \B$ s.t. $x \in B$. If $\forall$ open sets $U$ s.t. $U \cap A \neq \0$, then $B\cap A \neq \0$ since $B$ is an open set.
-	\\$(\Leftarrow)$ Let $x \in X$. Suppose $\forall U \in \B$ with $x \in U$, $U\cap A \neq \0$. Let $x \in V$, $V$ open. Then $\exists U \in \B$ s.t. $U \subseteq V$ and $x \in U$. So $V \cap A \neq \0$. Thus $x \in \overline{A}$.
-\end{proof}
 
 In other words, this exercise says that we can define the closure operator in terms of a basis.
 
@@ -287,54 +234,6 @@ Recall that a set $X$ is \textbf{countable} if there is a bijection from $\N$ to
 \begin{exercise}
 Find a countable basis for the usual topology on $\R$.
 \end{exercise}
-
-
-The notion of a basis allows us to define many topological spaces, and ways of constructing new spaces from old ones.
-
-Recall that a \textbf{total order} on a set $X$ is a relation $\leq$ such that, for all $x,y,z \in X$,
-\begin{itemize}
-\item (reflexivity) $x \leq x$.
-\item (antisymmetry) if $x \leq y$ and $y \leq x$, then $x=y$.
-\item (transitivity) if $x \leq y$ and $y \leq z$, then $x \leq z$.
-\item (totality) either $x \leq y$ or $y \leq x$.
-\end{itemize}
-
-Suppose $\leq$ is a total order on the set $X$. The \textbf{order topology} is the topology on $X$ with the following basis:
-$$\set{(a,b)}{a,b \in X} \cup \set{(a,\infty)}{a \in X} \cup \set{(-\infty,a)}{a \in X}$$
-where
-$$(a,b) = \set{x \in X}{a < x < b}$$
-$$(a,\infty) = \set{x \in X}{a < x}$$
-$$(a,\infty) = \set{x \in X}{x < a}.$$
-
-\begin{exercise}
-Let $\leq$ denote the usual order on $\R$. Show that the order topology on $\R$ is the same as the topology on $\R$ described in Example~\ref{example:realline}.
-\end{exercise}
-
-\begin{exercise}
-Define a new order on $\R$ such that the order topology given by this order is different from the order topology given by the usual order.
-\end{exercise}
-
-Given two sets $X$ and $Y$, recall that $X \times Y$ denotes the set of all pairs $(x,y)$, with $x \in X$ and $y \in Y$. Suppose $(X,\tau)$ and $(Y\sigma)$ are topological spaces. Define the \textbf{product topology} on $X \times Y$ to be the topology with the following basis:
-$$\set{U \times V}{U \in \tau \text{ and } V \in \sigma}$$ 
-
-\begin{exercise}
-Prove that this is a basis for a topology on $X \times Y$.
-\end{exercise}
-
-We can use a similar idea to define a topology on an infinite product of sets. First, let us define what we mean by an infinite product of sets.
-
-\begin{definition}\rm\
-\begin{enumerate}
-\item If $\set{X_i}{i \in I}$ is a set of sets, then define their \textbf{product}, denoted $\prod_{i \in I}X_i$, to be the set of all functions $f: I \to \bigcup_{i \in I}X_i$, such that, for every $i \in I$, $f(i) \in X_i$.
-\item If $\set{X_i}{i \in I}$ is a set of sets, define the \textbf{projection map} onto the $j^{\mathrm{th}}$ coordinate to be the function $\pi_j: \prod_{i \in I}X_i$ given by $\pi_j(f) = f(j)$.
-\end{enumerate}
-\end{definition}
-
-\begin{exercise}
-Suppose $\set{(X_i,\tau_i)}{i \in I}$ is a set of topological spaces. How do you think we should define the product topology on $\prod_{i \in I}X_i$?
-\end{exercise}
-
-
 
 
 
